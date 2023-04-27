@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "ESNext",
+    "outDir": ".output",
+    "skipLibCheck": true,
+    "strict": true
+  },
+  "include": ["src/**/*", "shim.d.ts"]
+}

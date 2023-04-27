@@ -1,9 +1,20 @@
 {
   "name": "module-manager-cli",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "module-manager-cli.js",
   "repository": "https://github.com/SugarF0x/module-manager-cli.git",
   "author": "Alexey Tuzov <sugarfox.dev@gmail.com>",
   "type": "module",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.3",
+    "@types/node": "^18.16.1",
+    "chalk": "^5.2.0",
+    "inquirer": "^9.2.0",
+    "typescript": "^5.0.4"
+  }
 }
