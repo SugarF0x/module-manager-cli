@@ -1,0 +1,9 @@
+{
+  "name": "module-manager-cli",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/SugarF0x/module-manager-cli.git",
+  "author": "Alexey Tuzov <sugarfox.dev@gmail.com>",
+  "type": "module",
+  "license": "MIT"
+}
