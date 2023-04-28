@@ -1,18 +1,19 @@
 import inquirer from "inquirer"
 
-async function main() {
-  console.clear()
-  const answers1 = await inquirer.prompt([
-    {
-      type: 'list',
-      name: 'action',
-      message: 'What do you want to do?',
-      choices: [
-        'Create new module',
-        'Extend existing module',
-      ],
-    },
-  ])
+console.clear()
+
+const answers1 = await inquirer.prompt([
+  {
+    type: 'list',
+    name: 'action',
+    message: 'What do you want to do?',
+    choices: [
+      'Create new module',
+      'Extend existing module',
+    ],
+  },
+])
+
 const answer2 = await inquirer.prompt([
   {
     type: 'list',
@@ -24,6 +25,3 @@ const answer2 = await inquirer.prompt([
     ],
   },
 ])
-}
-
-main()
