@@ -1,27 +1,28 @@
 import inquirer from "inquirer"
+import createNewModule from "./actions/createNewModule.js"
+
+enum Actions {
+  CREATE_NEW_MODULE = 'Create new module',
+  EXTEND_EXISTING_MODULE = 'Extend existing module'
+}
+
+const actionToHandlerMap: Record<Actions, () => void> = {
+  [Actions.CREATE_NEW_MODULE]: createNewModule,
+  [Actions.EXTEND_EXISTING_MODULE]: process.exit
+}
 
 console.clear()
 
-const answers1 = await inquirer.prompt([
+const { action } = await inquirer.prompt<{ action: Actions }>([
   {
     type: 'list',
     name: 'action',
     message: 'What do you want to do?',
     choices: [
-      'Create new module',
-      'Extend existing module',
+      Actions.CREATE_NEW_MODULE,
+      Actions.EXTEND_EXISTING_MODULE,
     ],
   },
 ])
 
-const answer2 = await inquirer.prompt([
-  {
-    type: 'list',
-    name: 'action2',
-    message: 'poop piss?',
-    choices: [
-      'poop',
-      'piss'
-    ],
-  },
-])
+actionToHandlerMap[action]()

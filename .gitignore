@@ -1,5 +1,5 @@
 .idea
 .output
-.modules
+modules
 node_modules
 yarn-error.log
