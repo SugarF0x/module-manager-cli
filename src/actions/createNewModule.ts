@@ -34,12 +34,10 @@ async function createNewModule(): Promise<void> {
     }
   }])
 
-  mkdirSync(`${root}/${moduleName}`)
-
   enum Internals {
-    API = 'api',
-    STORE = 'store',
-    UI = 'ui'
+    API = 'API',
+    STORE = 'Store',
+    UI = 'UI'
   }
 
   const { internals } = await inquirer.prompt<{ internals: Internals[] }>([{
@@ -50,10 +48,26 @@ async function createNewModule(): Promise<void> {
       { name: Internals.API, checked: true },
       { name: Internals.STORE, checked: true },
       { name: Internals.UI, checked: true },
+    ],
+    validate: (input: Internals[]) => !!input.length || 'Must choose at least one option'
+  }])
+
+  enum Content {
+    TESTS = 'Test directories & files',
+    TEMPLATE_FILES = 'Template file boilerplate'
+  }
+
+  const { content } = await inquirer.prompt<{ content: Content[] }>([{
+    name: 'content',
+    type: 'checkbox',
+    message: 'Select contents',
+    choices: [
+      { name: Content.TESTS, checked: true },
+      { name: Content.TEMPLATE_FILES, checked: true },
     ]
   }])
 
-  console.log(internals)
+  // mkdirSync(`${root}/${moduleName}`)
 }
 
 export default createNewModule
