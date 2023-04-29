@@ -1,5 +1,5 @@
 import inquirer from "inquirer"
-import { existsSync, mkdirSync } from "node:fs"
+import { existsSync, mkdirSync, realpathSync } from "node:fs"
 
 const MODULES_ROOT = './modules'
 
@@ -35,6 +35,25 @@ async function createNewModule(): Promise<void> {
   }])
 
   mkdirSync(`${root}/${moduleName}`)
+
+  enum Internals {
+    API = 'api',
+    STORE = 'store',
+    UI = 'ui'
+  }
+
+  const { internals } = await inquirer.prompt<{ internals: Internals[] }>([{
+    name: 'selection',
+    type: 'checkbox',
+    message: 'Select internals',
+    choices: [
+      { name: Internals.API, checked: true },
+      { name: Internals.STORE, checked: true },
+      { name: Internals.UI, checked: true },
+    ]
+  }])
+
+  console.log(internals)
 }
 
 export default createNewModule
