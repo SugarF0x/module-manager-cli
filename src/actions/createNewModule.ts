@@ -53,8 +53,9 @@ async function createNewModule(): Promise<void> {
   }])
 
   enum Content {
-    TESTS = 'Test directories & files',
-    TEMPLATE_FILES = 'Template file boilerplate'
+    TESTS = 'Test template',
+    MOCKS = 'Mock template',
+    SCREEN = 'Screen template'
   }
 
   const { content } = await inquirer.prompt<{ content: Content[] }>([{
@@ -63,7 +64,8 @@ async function createNewModule(): Promise<void> {
     message: 'Select contents',
     choices: [
       { name: Content.TESTS, checked: true },
-      { name: Content.TEMPLATE_FILES, checked: true },
+      { name: Content.MOCKS, checked: true },
+      { name: Content.SCREEN, checked: true },
     ]
   }])
 
