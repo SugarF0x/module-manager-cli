@@ -2,7 +2,6 @@
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "NodeNext",
-    "allowImportingTsExtensions": true,
     "target": "ESNext",
     "outDir": ".output",
     "skipLibCheck": true,
