@@ -1,4 +1,5 @@
 import React from 'react'
+import { Wrapper } from './TemplateScreen.styles.js'
 
 export interface ITemplateScreenState {
 
@@ -18,9 +19,9 @@ const TemplateScreen = (props: TemplateScreenProps) => {
   const {  } = props
 
   return (
-    <>
+    <Wrapper>
 
-    </>
+    </Wrapper>
   )
 }
 
