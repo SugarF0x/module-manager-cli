@@ -1,1 +1,1 @@
-export { default } from './ModuleScreen.wrap.ts'
+export { default } from './ModuleScreen.wrap.js'

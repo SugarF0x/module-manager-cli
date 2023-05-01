@@ -1,1 +1,1 @@
-export { default as Module } from './ModuleScreen/index.ts'
+export { default as Module } from './ModuleScreen/index.js'
