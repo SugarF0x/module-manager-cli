@@ -1,7 +1,10 @@
 import inquirer from "inquirer"
-import { existsSync, mkdirSync, realpathSync } from "node:fs"
+import { existsSync, mkdirSync, cpSync, readdirSync, statSync, readFileSync, writeFileSync } from "node:fs"
+import { join, dirname } from "node:path"
+import { getAllFilePathsInDirectory } from "../utils/getAllFilePathsInDirectory.js"
+import { capitalize } from "../utils/capitalize.js"
 
-const MODULES_ROOT = './modules'
+const MODULES_ROOT = 'modules'
 
 async function createNewModule(): Promise<void> {
   const { root } = await inquirer.prompt<{ root: string }>([{
@@ -16,7 +19,7 @@ async function createNewModule(): Promise<void> {
       name: "shouldCreateRoot",
       type: "confirm",
       default: false,
-      message: "Specified root directory does not exist. Would you like to create one?"
+      message: "Specified root directory does not exist. A new one will be created. Do you want to proceed?"
     }])
 
     if (!shouldCreateRoot) return createNewModule()
@@ -41,12 +44,12 @@ async function createNewModule(): Promise<void> {
   }
 
   const { internals } = await inquirer.prompt<{ internals: Internals[] }>([{
-    name: 'selection',
+    name: 'internals',
     type: 'checkbox',
     message: 'Select internals',
     choices: [
-      { name: Internals.API, checked: true },
-      { name: Internals.STORE, checked: true },
+      { name: Internals.API, checked: true, disabled: true },
+      { name: Internals.STORE, checked: true, disabled: true },
       { name: Internals.UI, checked: true },
     ],
     validate: (input: Internals[]) => !!input.length || 'Must choose at least one option'
@@ -63,13 +66,33 @@ async function createNewModule(): Promise<void> {
     type: 'checkbox',
     message: 'Select contents',
     choices: [
-      { name: Content.TESTS, checked: true },
-      { name: Content.MOCKS, checked: true },
-      { name: Content.SCREEN, checked: true },
+      { name: Content.TESTS, checked: true, disabled: true },
+      { name: Content.MOCKS, checked: true, disabled: true },
+      { name: Content.SCREEN, checked: true, disabled: !internals.includes(Internals.UI) },
     ]
   }])
 
-  // mkdirSync(`${root}/${moduleName}`)
+  const newModulePath = `${root}/${moduleName}`
+  const capitalizedModuleName = capitalize(moduleName)
+
+  if (internals.includes(Internals.UI)) {
+    const ModuleNamePlaceholder = 'Template'
+    const uiPath = newModulePath + '/ui'
+    const baseTemplatePath = 'src/templates/module/ui'
+
+    const allTemplateFiles = getAllFilePathsInDirectory(baseTemplatePath)
+    const templateFileToNewPathMap = Object.fromEntries(allTemplateFiles.map(path => [path, path.replaceAll(ModuleNamePlaceholder, capitalizedModuleName).replaceAll(baseTemplatePath, uiPath)]))
+
+    for (const template of allTemplateFiles) {
+      const target = templateFileToNewPathMap[template]
+
+      const parentDir = dirname(target)
+      if (!existsSync(parentDir)) mkdirSync(parentDir, { recursive: true })
+
+      const fileContents = !content.includes(Content.SCREEN) ? '' : readFileSync(template, { encoding: 'utf8' }).replaceAll(ModuleNamePlaceholder, capitalizedModuleName)
+      writeFileSync(target, fileContents)
+    }
+  }
 }
 
 export default createNewModule
