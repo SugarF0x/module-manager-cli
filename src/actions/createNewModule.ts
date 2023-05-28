@@ -1,11 +1,11 @@
 import inquirer from "inquirer"
 import { existsSync, mkdirSync, cpSync, readdirSync, statSync, readFileSync, writeFileSync } from "node:fs"
 import { join, dirname } from "node:path"
-import { getAllFilePathsInDirectory } from "../utils/getAllFilePathsInDirectory.js"
-import { capitalize } from "../utils/capitalize.js"
+import { getAllFilePathsInDirectory } from "../utils/getAllFilePathsInDirectory.ts"
+import { capitalize } from "../utils/capitalize.ts"
 
 async function createNewModule(): Promise<void> {
-  const { path, confirm = true } = await inquirer.prompt<{ path: string, confirm: boolean }>([
+  const { path } = await inquirer.prompt<{ path: string }>([
     {
       type: 'fuzzypath',
       name: 'path',
@@ -15,20 +15,22 @@ async function createNewModule(): Promise<void> {
       rootPath: 'modules',
       message: 'Select a target directory for your new block:',
       suggestOnly: true
-    },
-    {
-      name: "confirm",
-      type: "confirm",
-      default: true,
-      message: "Specified directory does not exist. A new one will be created. Do you want to proceed?",
-      when({ path }: { path: string }) {
-        return !existsSync(path)
-      }
     }
   ])
 
-  if (!confirm) process.exit()
-  mkdirSync(path)
+  if (!existsSync(path)) {
+    const { confirm } = await inquirer.prompt<{ confirm: boolean }>([
+      {
+        name: "confirm",
+        type: "confirm",
+        default: true,
+        message: "Specified directory does not exist. A new one will be created. Do you want to proceed?"
+      }
+    ])
+
+    if (!confirm) process.exit()
+    mkdirSync(path)
+  }
 
   process.exit()
 
