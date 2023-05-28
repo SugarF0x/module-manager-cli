@@ -1,12 +1,14 @@
 {
+  "ts-node": {
+    "esm": true
+  },
   "compilerOptions": {
-    "module": "ESNext",
-    "moduleResolution": "NodeNext",
-    "target": "ESNext",
-    "outDir": ".output",
-    "skipLibCheck": true,
+    "module": "NodeNext",
+    "preserveConstEnums": true,
     "strict": true,
-    "jsx": "react"
+    "target": "es2017",
+    "esModuleInterop": true,
+    "allowImportingTsExtensions": true
   },
   "include": ["src/**/*", "shim.d.ts"]
 }
