@@ -1,5 +1,8 @@
 import inquirer from "inquirer"
 import createNewModule from "./actions/createNewModule.js"
+import inquirerFuzzyPath from "inquirer-fuzzy-path"
+
+inquirer.registerPrompt('fuzzypath', inquirerFuzzyPath)
 
 enum Actions {
   CREATE_NEW_MODULE = 'Create new module',
