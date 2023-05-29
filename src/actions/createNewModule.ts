@@ -1,6 +1,6 @@
 import inquirer from "inquirer"
 import { existsSync, mkdirSync, cpSync, readdirSync, statSync, readFileSync, writeFileSync } from "node:fs"
-import { join, dirname } from "node:path"
+import { join, dirname, basename } from "node:path"
 import { getAllFilePathsInDirectory } from "../utils/getAllFilePathsInDirectory.ts"
 import { capitalize } from "../utils/capitalize.ts"
 
@@ -32,19 +32,10 @@ async function createNewModule(): Promise<void> {
     mkdirSync(path)
   }
 
+  const newModuleName = capitalize(basename(path))
+
   process.exit()
 
-  // const { moduleName } = await inquirer.prompt<{ moduleName: string }>([{
-  //   name: 'moduleName',
-  //   type: 'input',
-  //   default: 'newModule',
-  //   message: 'Specify new module name',
-  //   validate(input: string): boolean | string {
-  //     if (existsSync(`${root}/${input}`)) return `Module ${input} already exists`
-  //     return true
-  //   }
-  // }])
-  //
   // enum Internals {
   //   API = 'API',
   //   STORE = 'Store',
